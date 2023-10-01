@@ -251,3 +251,46 @@ Losing state file means Terraform loses track of the infrastructure that exists.
 ### Terraform Directory
 
 `.terraform` directory contains binaries of terraform providers.
+
+#### Terraform Cloud Login and Gitpod Workspace
+To work with the `terraform login`, we need to first manually generate a token in Terraform Cloud. Then we need to provide the token as an input after navigating to P)rint after we run the command ```terraform login```
+
+To generate a token manually in terraform cloud we can go to [This link](https://app.terraform.io/app/settings/tokens?source=terraform-login) and create an API token for our workspace to get authenticated 
+
+**ALTERNATIVELY**,
+We can create a file manually and store our generated token by using the below commands:
+
+
+```sh
+touch /home/gitpod/.terraform.d/credentials.tfrc.json
+open /home/gitpod/.terraform.d/credentials.tfrc.json
+```
+
+Provide the following code (replace your token in the file):
+
+```json
+{
+  "credentials": {
+    "app.terraform.io": {
+      "token": "YOUR-TERRAFORM-CLOUD-TOKEN"
+    }
+  }
+}
+```
+We can then successfully run the `terraform apply` command to plan the resources successfully.
+
+#### Providing the right credentials for AWS Provider
+
+When running the `terraform plan` command, we can run into a problem of credentials failed. We need to carefully include the 
+```
+provider "aws" {
+  region     = "us-west-2"
+  access_key = "my-access-key"
+  secret_key = "my-secret-key"
+}
+```
+code in our `main.tf` file and provide the correct values of AWS in order to get over the credentials failed error that might occur after running the `terraform plan`.
+
+- **NOTE: WE SHOULD NEVER COMMIT THIS `main.tf` file WITH THE AWS CREDENTIALS PROVIDED. THIS MIGHT RESULT IN COMPROMISING THE AWS CREDENTIALS TO A PUBLIC REPO.**
+
+- **ALWAYS DELETE THE AWS PROVIDER CREDENTIAL CODE BEFORE COMMITING THE  `main.tf` FILE. IT IS A SECURITY BEST PRACTICE.**
