@@ -294,3 +294,8 @@ code in our `main.tf` file and provide the correct values of AWS in order to get
 - **NOTE: WE SHOULD NEVER COMMIT THIS `main.tf` file WITH THE AWS CREDENTIALS PROVIDED. THIS MIGHT RESULT IN COMPROMISING THE AWS CREDENTIALS TO A PUBLIC REPO.**
 
 - **ALWAYS DELETE THE AWS PROVIDER CREDENTIAL CODE BEFORE COMMITING THE  `main.tf` FILE. IT IS A SECURITY BEST PRACTICE.**
+
+#### Automation of generation of tfrc file
+We have used chatGPT to generate a [generate_tfrc_credentials](./bin/generate_tfrc_credentials) file where we have automated the login process of the terraform using the API token authentication. 
+
+We then changed the `gitpod.yml` file such that the authentication happens as soon as we reopen/start a new workspace.
