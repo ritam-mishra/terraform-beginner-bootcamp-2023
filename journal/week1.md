@@ -10,6 +10,13 @@
   * [terraform.tfvars](#terraformtfvars)
   * [auto.tfvars](#autotfvars)
   * [Order of terraform variables](#order-of-terraform-variables)
+- [Dealing With Configuration Drift](#dealing-with-configuration-drift)
+  * [What happens if we lose our state file?](#what-happens-if-we-lose-our-state-file-)
+  * [Fix Missing Resources with Terraform Import](#fix-missing-resources-with-terraform-import)
+  * [Fix Manual Configuration](#fix-manual-configuration)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
 
 ## Root Module Structure
 
@@ -87,3 +94,22 @@ The order of precedence for Terraform variables is as follows, from highest to l
 6. Variable defaults
 
 This order of precedence can be useful for overriding the values of variables from the command line or from environment variables.
+## Dealing With Configuration Drift
+
+### What happens if we lose our state file?
+
+If you lose your statefile, you most likley have to tear down all your cloud infrastructure manually.
+
+You can use terraform port but it won't for all cloud resources. You need check the terraform providers documentation for which resources support import.
+
+### Fix Missing Resources with Terraform Import
+
+`terraform import aws_s3_bucket.bucket bucket-name`
+
+[Terraform Import](https://developer.hashicorp.com/terraform/cli/import)
+[AWS S3 Bucket Import](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#import)
+
+### Fix Manual Configuration
+
+If someone goes and delete or modifies cloud resource manually through ClickOps. 
+If we run Terraform plan is with attempt to put our infrstraucture back into the expected state fixing Configuration Drift
