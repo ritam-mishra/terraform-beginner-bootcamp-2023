@@ -113,3 +113,50 @@ You can use terraform port but it won't for all cloud resources. You need check 
 
 If someone goes and delete or modifies cloud resource manually through ClickOps. 
 If we run Terraform plan is with attempt to put our infrstraucture back into the expected state fixing Configuration Drift
+### Fix using Terraform Refresh
+Terraform refresh is a command that updates Terraform's state to match the actual state of your infrastructure. It is important to run Terraform refresh before applying any changes to your infrastructure, as this will help to ensure that Terraform is aware of any changes that have been made outside of Terraform.
+
+```sh
+terraform apply -refresh-only -auto-approve
+```
+Terraform will then read the current settings from all managed remote objects and update the state to match.
+
+## Terraform Modules
+Modules are containers for multiple resources that are used together. A module consists of a collection of .tf and/or .tf.json files kept together in a directory.
+
+Modules are the main way to package and reuse resource configurations with Terraform.
+
+### Terraform Module Structure
+Every Terraform configuration has at least one module, known as its root module, which consists of the resources defined in the `.tf` files in the main working directory.
+It is recommend to place modules in a `modules` directory when locally developing modules but you can name it whatever you like.
+
+### Passing Input Variables
+
+We can pass input variables to our module.
+The module has to declare the terraform variables in its own variables.tf
+In our project the example is shown below:
+
+```tf
+module "terrahouse_aws" {
+  source = "./modules/terrahouse_aws"
+  user_uuid = var.user_uuid
+  bucket_name = var.bucket_name
+}
+```
+
+### Modules Sources
+The `source` argument in a module block tells Terraform where to find the source code for the desired child module.
+
+Terraform uses this during the module installation step of `terraform init` to download the source code to a directory on local disk so that other Terraform commands can use it.
+
+Using the source we can import the module from various places eg:
+- locally
+- Github
+- Terraform Registry
+
+```tf
+module "terrahouse_aws" {
+  source = "./modules/terrahouse_aws"
+}
+```
+[Official Documentation for Modules Sources](https://developer.hashicorp.com/terraform/language/modules/sources)
