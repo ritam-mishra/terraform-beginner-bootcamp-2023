@@ -16,4 +16,4 @@ vscode:
   extensions:
     - amazonwebservices.aws-toolkit-vscode
     - hashicorp.terraform
-    - git-log--graph
+    - phil294.git-log--graph
