@@ -7,12 +7,12 @@ terraform {
   #    name = "Terrahouse"
   #  }
   # }
-  cloud {
-   organization = "terraform-beginner-project"
-   workspaces {
-     name = "Terrahouse"
-   }
-  }
+  # cloud {
+  #  organization = "terraform-beginner-project"
+  #  workspaces {
+  #    name = "Terrahouse"
+  #  }
+  # }
 
 }
 module "terrahouse_aws" {
